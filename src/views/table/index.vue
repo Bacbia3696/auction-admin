@@ -7,6 +7,7 @@
       border
       fit
       highlight-current-row
+      stripe
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">

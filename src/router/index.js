@@ -44,6 +44,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/users/detail',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: ':id',
+      name: 'users-detail',
+      component: () => import('@/views/users/detail'),
+      meta: { title: 'Tổng quan', icon: 'dashboard' }
+    }]
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -51,12 +63,13 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: 'Tổng quan', icon: 'dashboard' }
     }]
   },
 
   {
     path: '/example',
+    hidden: true,
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
@@ -74,6 +87,52 @@ export const constantRoutes = [
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree' }
       }
+    ]
+  },
+
+  {
+    path: '/users',
+    component: Layout,
+    meta: { title: 'Người dùng', icon: 'user' },
+    children: [
+      {
+        path: 'users-list',
+        name: 'users-list',
+        component: () => import('@/views/users/list'),
+        meta: { title: 'Danh sách', icon: 'table' }
+      },
+      {
+        path: '2',
+        name: '2',
+        component: () => import('@/views/users/waitapprove'),
+        meta: { title: 'Chờ phê duyệt', icon: 'eye-open' }
+      },
+    ]
+  },
+
+  {
+    path: '/auctions',
+    component: Layout,
+    meta: { title: 'Đấu giá', icon: 'form' },
+    children: [
+      {
+        path: 'auc1',
+        name: 'auc1',
+        component: () => import('@/views/table'),
+        meta: { title: 'Sắp diễn ra', icon: 'auction' }
+      },
+      {
+        path: 'auc2',
+        name: 'auc2',
+        component: () => import('@/views/table'),
+        meta: { title: 'Danh sách', icon: 'table' }
+      },
+      {
+        path: 'auc3',
+        name: 'auc3',
+        component: () => import('@/views/table'),
+        meta: { title: 'Chờ tạo', icon: 'eye-open' }
+      },
     ]
   },
 
@@ -99,6 +158,7 @@ export const constantRoutes = [
       title: 'Nested',
       icon: 'nested'
     },
+    hidden: true,
     children: [
       {
         path: 'menu1',
