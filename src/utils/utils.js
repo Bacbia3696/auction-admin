@@ -1,5 +1,5 @@
 export function formatDate(m) {
-    let d = new Date(m)
-    let dateString = d.getUTCDate() + "/" + d.getUTCMonth() + "/" + d.getFullYear()
-    return dateString
+  const d = new Date(m)
+  const dateString = d.getUTCDate() + '/' + d.getUTCMonth() + '/' + d.getFullYear()
+  return dateString
 }

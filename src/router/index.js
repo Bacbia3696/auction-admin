@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: ':id',
       name: 'users-detail',
       component: () => import('@/views/users/detail'),
-      meta: { title: 'Tổng quan', icon: 'dashboard' }
+      meta: { title: 'Chi tiết', icon: 'dashboard' }
     }]
   },
 
@@ -106,7 +106,7 @@ export const constantRoutes = [
         name: '2',
         component: () => import('@/views/users/waitapprove'),
         meta: { title: 'Chờ phê duyệt', icon: 'eye-open' }
-      },
+      }
     ]
   },
 
@@ -132,7 +132,7 @@ export const constantRoutes = [
         name: 'auc3',
         component: () => import('@/views/table'),
         meta: { title: 'Chờ tạo', icon: 'eye-open' }
-      },
+      }
     ]
   },
 

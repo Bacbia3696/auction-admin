@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-table
-      v-loading="listLoading"
+      :v-loading="listLoading"
       :data="list"
       element-loading-text="Đang tải dữ liệu"
       border
@@ -46,36 +46,37 @@
             type="primary"
             icon="el-icon-edit"
             @click="handleDetail(scope.$index, scope.row)"
-          ></el-button>
+          />
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       background
       layout="prev, pager, next"
+      style="margin-top: 30px"
       :total="total"
       :page-size="pageSize"
       :current-page="currentPage"
       @current-change="handlePageChange"
-    >
-    </el-pagination>
+    />
   </div>
 </template>
 
 <script>
-import * as user from "@/api/user";
-import { formatDate } from "@/utils/utils";
+import * as user from '@/api/user'
+import { formatDate } from '@/utils/utils'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        0: "danger",
-        1: "success",
-      };
+        0: 'danger',
+        1: 'success',
+        '-1': 'warning'
+      }
 
-      return statusMap[status];
-    },
+      return statusMap[status]
+    }
   },
 
   data() {
@@ -84,44 +85,45 @@ export default {
       list: null,
       pageSize: 20,
       total: 0,
-      currentPage: 1,
-    };
-  },
-
-  methods: {
-    handlePageChange(page) {
-      this.currentPage = page;
-      this.fetchData();
-    },
-    fetchData() {
-      this.listLoading = true;
-      user
-        .getList(this.currentPage, this.pageSize)
-        .then((response) => {
-          this.list = response.data.data.users;
-          this.list = this.list.map((e) => {
-            e.created_at = formatDate(e.created_at);
-            return e;
-          });
-          this.total = Math.floor(response.data.data.total);
-          this.listLoading = false;
-        })
-        .catch((err) => console.log(err));
-    },
-    convertStatus(status) {
-      const m = {
-        0: "Chưa xác thực",
-        1: "Đã xác thực",
-      };
-      return m[status];
-    },
-    handleDetail(id) {
-      this.$router.push(`/users/detail/${id}`)
+      currentPage: 1
     }
   },
 
   created() {
-    this.fetchData();
+    this.fetchData()
   },
-};
+
+  methods: {
+    handlePageChange(page) {
+      this.currentPage = page
+      this.fetchData()
+    },
+    fetchData() {
+      this.listLoading = true
+      user
+        .getList(this.currentPage, this.pageSize)
+        .then((response) => {
+          this.list = response.data.data.users
+          this.list = this.list.map((e) => {
+            e.created_at = formatDate(e.created_at)
+            return e
+          })
+          this.total = Math.floor(response.data.data.total)
+          this.listLoading = false
+        })
+        .catch((err) => console.log(err))
+    },
+    convertStatus(status) {
+      const m = {
+        0: 'Chưa xác thực',
+        1: 'Đã xác thực',
+        '-1': 'Đã bị khoá'
+      }
+      return m[status]
+    },
+    handleDetail(idx, row) {
+      this.$router.push(`/users/detail/${row.id}`)
+    }
+  }
+}
 </script>

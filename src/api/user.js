@@ -24,19 +24,30 @@ export function logout() {
   })
 }
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiaHVvbmducTciLCJJZCI6OCwiZXhwIjoxNjM0NjQ1NjYwfQ.DviRsfmwCadqf081QM_cWAVa2dI3A4W8svqzk_ZEZAo'
+
 export function getList(page, size) {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiaHVvbmducTciLCJJZCI6OCwiZXhwIjoxNjM0NDc0MzIxfQ.9DTRI66ICzFsjn_ZS1WABHhxsmp6NqO_1XH-7O7x-rE"
-  const headers = { Authorization: `Bearer ${token}` };
-  return Axios.post("http://188.166.185.44:9000/cms/list-user", {
+  const headers = { Authorization: `Bearer ${token}` }
+  return Axios.post('http://188.166.185.44:9000/cms/list-user', {
     page,
     size
   }, { headers })
 }
 
-
 export function getDetail(id) {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiaHVvbmducTciLCJJZCI6OCwiZXhwIjoxNjM0NDc0MzIxfQ.9DTRI66ICzFsjn_ZS1WABHhxsmp6NqO_1XH-7O7x-rE"
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { Authorization: `Bearer ${token}` }
   const params = { id }
-  return Axios.get("http://188.166.185.44:9000/cms/user/detail", { headers, params })
+  return Axios.get('http://188.166.185.44:9000/cms/user/detail', { headers, params })
+}
+
+export function verify(id) {
+  const headers = { Authorization: `Bearer ${token}` }
+  const params = { userId: id }
+  return Axios.post('http://188.166.185.44:9000/cms/verify', null, { headers, params })
+}
+
+export function lock(id) {
+  const headers = { Authorization: `Bearer ${token}` }
+  const params = { userId: id }
+  return Axios.post('http://188.166.185.44:9000/cms/lock', null, { headers, params })
 }
