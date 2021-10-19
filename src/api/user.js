@@ -24,7 +24,7 @@ export function logout() {
   })
 }
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiaHVvbmducTciLCJJZCI6OCwiZXhwIjoxNjM0NjQ1NjYwfQ.DviRsfmwCadqf081QM_cWAVa2dI3A4W8svqzk_ZEZAo'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiaHVvbmducTciLCJJZCI6OCwiZXhwIjoxNjM0NzY3NjE2fQ.PKj5H68a3BAVJv8iQlMp0fXkmF9HqB6a4Sd6JUoceZ4'
 
 export function getList(page, size) {
   const headers = { Authorization: `Bearer ${token}` }

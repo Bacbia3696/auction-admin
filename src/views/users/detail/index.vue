@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <el-descriptions
-      :v-loading="isLoading"
+      v-loading="isLoading"
       class="user-detail"
       :title="'Thông tin chi tiết ' + userInfo.full_name"
-      :column="3"
+      column=3
       border
     >
       <template slot="extra">
