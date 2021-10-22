@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: 'Đấu giá',
 
   /**
    * @type {boolean} true | false
@@ -12,5 +12,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  sidebarLogo: false
+  sidebarLogo: false,
+
+  backEndUrl: 'http://188.166.185.44:9000/'
 }

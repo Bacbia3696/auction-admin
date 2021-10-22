@@ -4,23 +4,19 @@
       v-loading="isLoading"
       class="user-detail"
       :title="'Thông tin chi tiết ' + userInfo.full_name"
-      column=3
+      column="3"
       border
     >
       <template slot="extra">
         <el-button v-if="userInfo.status === 0" type="success" @click="test">
           Đồng ý xác thực
         </el-button>
-        <el-button
-          v-else-if="userInfo.status === 1"
-          type="danger"
-          @click="test"
-        >Khoá tài khoản</el-button>
-        <el-button
-          v-else
-          type="primary"
-          @click="test"
-        >Mở khoá tài khoản</el-button>
+        <el-button v-else-if="userInfo.status === 1" type="danger" @click="test"
+          >Khoá tài khoản</el-button
+        >
+        <el-button v-else type="primary" @click="test"
+          >Mở khoá tài khoản</el-button
+        >
       </template>
       <el-descriptions-item>
         <template slot="label">
@@ -83,21 +79,21 @@
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-office-building" />
-          bank id
+          STK ngân hàng
         </template>
         {{ userInfo.bank_id }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-office-building" />
-          bank owner
+          Tên chủ tài khoản
         </template>
         {{ userInfo.bank_owner }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-office-building" />
-          bank name
+          Tên ngân hàng
         </template>
         {{ userInfo.bank_name }}
       </el-descriptions-item>
@@ -110,9 +106,9 @@
       </el-descriptions-item>
     </el-descriptions>
     <el-carousel
-      :interval="4000"
+      :interval="20000"
       type="card"
-      height="1000px"
+      height="500px"
       style="margin-top: 30px"
     >
       <el-carousel-item v-for="(item, idx) in images" :key="idx">
@@ -122,17 +118,11 @@
             <span v-else-if="item.type === 2">Mặt sau CMND</span>
             <span v-else>Hình ảnh</span>
           </div>
-          <img
+          <el-image
+            style="width: auto; height: 400px"
             :src="'http://188.166.185.44:9000/' + item.url"
-            class="image"
-            style="
-              height: 100%;
-              min-width: 100%;
-              left: 50%;
-              position: relative;
-              transform: translateX(-50%);
-            "
-          >
+            fit="contain"
+          ></el-image>
         </el-card>
       </el-carousel-item>
     </el-carousel>
@@ -140,112 +130,112 @@
 </template>
 
 <script>
-import * as user from '@/api/user'
-import { formatDate } from '@/utils/utils'
+import * as user from "@/api/user";
+import { formatDate } from "@/utils/utils";
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        0: 'danger',
-        1: 'success',
-        '-1': 'warning'
-      }
+        0: "danger",
+        1: "success",
+        "-1": "warning",
+      };
 
-      return statusMap[status]
-    }
+      return statusMap[status];
+    },
   },
   data() {
     return {
       currentId: this.$route.params.id,
       userInfo: null,
       isLoading: true,
-      images: {}
-    }
+      images: {},
+    };
   },
   computed: {
     isPersonalAccount() {
-      return !this.userInfo?.organization_name?.Valid
-    }
+      return !this.userInfo?.organization_name?.Valid;
+    },
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData() {
-      this.isLoading = true
+      this.isLoading = true;
       user.getDetail(this.currentId).then((resp) => {
-        this.userInfo = resp.data.data.user
-        this.images = resp.data.data.images
-        this.userInfo.id_card_date = formatDate(this.userInfo.id_card_date)
-        this.userInfo.birthdate = formatDate(this.userInfo.birthdate.Time)
-        this.isLoading = false
-      })
+        this.userInfo = resp.data.user;
+        this.images = resp.data.images;
+        this.userInfo.id_card_date = formatDate(this.userInfo.id_card_date);
+        this.userInfo.birthdate = formatDate(this.userInfo.birthdate.Time);
+        this.isLoading = false;
+      });
     },
     convertStatus(status) {
       const m = {
-        0: 'Chưa xác thực',
-        1: 'Đã kích hoạt',
-        '-1': 'Đã bị khoá'
-      }
-      return m[status]
+        0: "Chưa xác thực",
+        1: "Đã kích hoạt",
+        "-1": "Đã bị khoá",
+      };
+      return m[status];
     },
     test() {
-      this.$confirm('Xác nhận?', 'Warning', {
-        confirmButtonText: 'Đồng ý',
-        cancelButtonText: 'Quay lại',
-        type: 'warning'
+      this.$confirm("Xác nhận?", "Warning", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Quay lại",
+        type: "warning",
       }).then(() => {
-        if (this.userInfo.status == 0) {
+        if (this.userInfo.status === 0) {
           user.verify(this.currentId).then((res) => {
-            if (res.data?.code == 0) {
+            if (res.code === 0) {
               this.$message({
-                message: 'Kích hoạt thành công',
-                type: 'success'
-              })
-              this.fetchData()
+                message: "Kích hoạt thành công",
+                type: "success",
+              });
+              this.fetchData();
             } else {
               this.$message({
-                message: 'Có lỗi xảy ra, vui lòng thử lại sau!',
-                type: 'danger'
-              })
+                message: "Có lỗi xảy ra, vui lòng thử lại sau!",
+                type: "danger",
+              });
             }
-          })
-        } else if (this.userInfo.status == 1) {
+          });
+        } else if (this.userInfo.status === 1) {
           user.lock(this.currentId).then((res) => {
-            if (res.data?.code == 0) {
+            if (res.code === 0) {
               this.$message({
-                message: 'Khoá người dùng thành công',
-                type: 'success'
-              })
-              this.fetchData()
+                message: "Khoá người dùng thành công",
+                type: "success",
+              });
+              this.fetchData();
             } else {
               this.$message({
-                message: 'Có lỗi xảy ra, vui lòng thử lại sau!',
-                type: 'danger'
-              })
+                message: "Có lỗi xảy ra, vui lòng thử lại sau!",
+                type: "danger",
+              });
             }
-          })
+          });
         } else {
           user.verify(this.currentId).then((res) => {
-            if (res.data?.code == 0) {
+            if (res.code === 0) {
               this.$message({
-                message: 'Mở khoá người dùng thành công',
-                type: 'success'
-              })
-              this.fetchData()
+                message: "Mở khoá người dùng thành công",
+                type: "success",
+              });
+              this.fetchData();
             } else {
               this.$message({
-                message: 'Có lỗi xảy ra, vui lòng thử lại sau!',
-                type: 'danger'
-              })
+                message: "Có lỗi xảy ra, vui lòng thử lại sau!",
+                type: "danger",
+              });
             }
-          })
+          });
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

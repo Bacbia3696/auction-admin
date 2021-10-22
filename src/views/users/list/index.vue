@@ -103,12 +103,12 @@ export default {
       user
         .getList(this.currentPage, this.pageSize)
         .then((response) => {
-          this.list = response.data.data.users
+          this.list = response.data.users
           this.list = this.list.map((e) => {
             e.created_at = formatDate(e.created_at)
             return e
           })
-          this.total = Math.floor(response.data.data.total)
+          this.total = Math.floor(response.data.total)
           this.listLoading = false
         })
         .catch((err) => console.log(err))
