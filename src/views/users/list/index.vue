@@ -31,7 +31,7 @@
       >
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{
-            convertStatus(scope.row.status)
+            scope.row.status | convertStatus
           }}</el-tag>
         </template>
       </el-table-column>
@@ -64,9 +64,10 @@
 
 <script>
 import * as user from '@/api/user'
-import { formatDate } from '@/utils/utils'
+import { formatDate, convertUserStatus } from '@/utils/utils'
 
 export default {
+  name: 'UserList',
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -76,7 +77,8 @@ export default {
       }
 
       return statusMap[status]
-    }
+    },
+    convertStatus: convertUserStatus,
   },
 
   data() {
@@ -108,22 +110,15 @@ export default {
             e.created_at = formatDate(e.created_at)
             return e
           })
-          this.total = Math.floor(response.data.total)
+          this.total = response.data.total
           this.listLoading = false
         })
         .catch((err) => console.log(err))
     },
-    convertStatus(status) {
-      const m = {
-        0: 'Chưa xác thực',
-        1: 'Đã xác thực',
-        '-1': 'Đã bị khoá'
-      }
-      return m[status]
-    },
     handleDetail(idx, row) {
       this.$router.push(`/users/detail/${row.id}`)
     }
-  }
+  },
+
 }
 </script>

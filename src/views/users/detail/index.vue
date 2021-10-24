@@ -120,7 +120,7 @@
           </div>
           <el-image
             style="width: auto; height: 400px"
-            :src="'http://188.166.185.44:9000/' + item.url"
+            :src="'http://localhost:9000/' + item.url"
             fit="contain"
           ></el-image>
         </el-card>

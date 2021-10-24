@@ -118,20 +118,20 @@ export const constantRoutes = [
       {
         path: 'auc1',
         name: 'auc1',
-        component: () => import('@/views/table'),
-        meta: { title: 'Sắp diễn ra', icon: 'auction' }
+        component: () => import('@/views/auctions/create'),
+        meta: { title: 'Tạo đấu giá', icon: 'auction' }
       },
       {
         path: 'auc2',
         name: 'auc2',
         component: () => import('@/views/table'),
-        meta: { title: 'Danh sách', icon: 'table' }
+        meta: { title: 'Kết quả', icon: 'eye-open' }
       },
       {
         path: 'auc3',
         name: 'auc3',
         component: () => import('@/views/table'),
-        meta: { title: 'Chờ tạo', icon: 'eye-open' }
+        meta: { title: 'Danh sách', icon: 'table' }
       }
     ]
   },
