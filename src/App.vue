@@ -9,3 +9,9 @@ export default {
   name: 'App'
 }
 </script>
+
+<style>
+  .el-table .cell {
+    word-break: break-word;
+  }
+</style>

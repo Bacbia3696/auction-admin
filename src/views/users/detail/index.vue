@@ -4,7 +4,7 @@
       v-loading="isLoading"
       class="user-detail"
       :title="'Thông tin chi tiết ' + userInfo.full_name"
-      column="3"
+      :column="3"
       border
     >
       <template slot="extra">
@@ -120,7 +120,7 @@
           </div>
           <el-image
             style="width: auto; height: 400px"
-            :src="'http://localhost:9000/' + item.url"
+            :src="baseUrl + item.url"
             fit="contain"
           ></el-image>
         </el-card>
@@ -151,6 +151,7 @@ export default {
       userInfo: null,
       isLoading: true,
       images: {},
+      baseUrl: process.env.VUE_APP_BASE_API,
     };
   },
   computed: {
@@ -170,7 +171,7 @@ export default {
         this.userInfo.id_card_date = formatDate(this.userInfo.id_card_date);
         this.userInfo.birthdate = formatDate(this.userInfo.birthdate.Time);
         this.isLoading = false;
-      });
+      }).catch(err => console.log(err));
     },
     convertStatus(status) {
       const m = {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -10,15 +10,25 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+function isExpireWithin5Min(token) {
+  let now = new Date() / 1000
+  let base64Payload = token.split('.')[1];
+  let payload = Buffer.from(base64Payload, 'base64');
+  let parsed = JSON.parse(payload.toString())
+  let exp = parsed.exp
+  return now + 5 * 60 > exp
+}
+
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
 
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
+      if (isExpireWithin5Min(getToken())) {
+        removeToken()
+        throw new Error("Phiên làm việc kết thúc, vui lòng đăng nhập lại")
+      }
       config.headers['Authorization'] = 'Bearer ' + getToken()
     }
     return config

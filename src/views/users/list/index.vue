@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-table
-      :v-loading="listLoading"
+      :v-loading="isLoading"
       :data="list"
       element-loading-text="Đang tải dữ liệu"
       border
@@ -83,8 +83,8 @@ export default {
 
   data() {
     return {
-      listLoading: true,
-      list: null,
+      isLoading: true,
+      list: [],
       pageSize: 20,
       total: 0,
       currentPage: 1
@@ -101,7 +101,7 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true
+      this.isLoading = true
       user
         .getList(this.currentPage, this.pageSize)
         .then((response) => {
@@ -111,7 +111,7 @@ export default {
             return e
           })
           this.total = response.data.total
-          this.listLoading = false
+          this.isLoading = false
         })
         .catch((err) => console.log(err))
     },

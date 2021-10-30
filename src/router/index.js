@@ -54,6 +54,17 @@ export const constantRoutes = [
       meta: { title: 'Chi tiết', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/auctions/detail',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: ':id',
+      name: 'auctions-detail',
+      component: () => import('@/views/auctions/detail'),
+      meta: { title: 'Chi tiết', icon: 'dashboard' }
+    }]
+  },
 
   {
     path: '/',
@@ -116,23 +127,23 @@ export const constantRoutes = [
     meta: { title: 'Đấu giá', icon: 'form' },
     children: [
       {
-        path: 'auc1',
-        name: 'auc1',
+        path: 'auctions-create',
+        name: 'auctions-create',
         component: () => import('@/views/auctions/create'),
         meta: { title: 'Tạo đấu giá', icon: 'auction' }
       },
       {
-        path: 'auc2',
-        name: 'auc2',
-        component: () => import('@/views/table'),
-        meta: { title: 'Kết quả', icon: 'eye-open' }
+        path: 'auctions-list',
+        name: 'auctions-list',
+        component: () => import('@/views/auctions/list'),
+        meta: { title: 'Danh sách', icon: 'table' }
       },
       {
         path: 'auc3',
         name: 'auc3',
         component: () => import('@/views/table'),
-        meta: { title: 'Danh sách', icon: 'table' }
-      }
+        meta: { title: 'Kết quả', icon: 'eye-open' }
+      },
     ]
   },
 
