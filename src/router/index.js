@@ -65,6 +65,28 @@ export const constantRoutes = [
       meta: { title: 'Chi tiết', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/auctions/bid-list',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: ':id',
+      name: 'auctions-bid-list',
+      component: () => import('@/views/auctions/bid-list'),
+      meta: { title: 'Danh sách các lượt đấu', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/auctions/registration-list',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: ':id',
+      name: 'auctions-registration-list',
+      component: () => import('@/views/auctions/registration-list'),
+      meta: { title: 'Danh sách người đăng ký', icon: 'dashboard' }
+    }]
+  },
 
   {
     path: '/',

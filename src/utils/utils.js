@@ -9,7 +9,7 @@ export function formatDateTime(m) {
   const d = new Date(m)
   const dateString = d.getUTCDate().toString().padStart(2, 0) +
     '/' + (d.getUTCMonth() + 1).toString().padStart(2, 0) + '/' + d.getFullYear()
-    + ' - ' + d.getUTCHours() + ":" + d.getUTCMinutes()
+    + ' - ' + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds()
   return dateString
 }
 

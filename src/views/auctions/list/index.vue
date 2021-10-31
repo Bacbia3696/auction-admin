@@ -7,7 +7,12 @@
           style="width: 50%; margin-right: 1%"
           v-on:keyup.enter.native="fetchData"
         ></el-input>
-        <el-button icon="el-icon-search" circle @click="fetchData" type="primary"></el-button>
+        <el-button
+          icon="el-icon-search"
+          circle
+          @click="fetchData"
+          type="primary"
+        ></el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -21,24 +26,37 @@
     >
       <el-table-column align="center" label="ID" property="id">
       </el-table-column>
-      <el-table-column align="center" label="Họ tên" property="full_name">
+      <el-table-column align="center" label="Mã đấu giá" property="code">
       </el-table-column>
-      <el-table-column align="center" label="Số điện thoại" property="phone">
+      <el-table-column align="center" label="Tiêu đề" property="title">
       </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="Trạng thái"
-        align="center"
-      >
+      <el-table-column align="center" label="Chủ sp đấu giá" property="owner">
+      </el-table-column>
+      <el-table-column align="center" label="Loại đấu giá">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{
-            scope.row.status | convertStatus
-          }}</el-tag>
+          {{ scope.row.type | typeFilter }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Ngày tạo">
+      <el-table-column label="Danh sách người đk" align="center" width="120">
         <template slot-scope="scope">
-          {{ scope.row.created_at }}
+          <el-button
+            type="primary"
+            icon="el-icon-notebook-1"
+            @click="handleRegistrationList(scope.$index, scope.row)"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="Danh sách lượt đấu giá"
+        align="center"
+        width="120"
+      >
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            icon="el-icon-notebook-2"
+            @click="handleBidList(scope.$index, scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="Xem chi tiết" align="center" width="120">
@@ -64,24 +82,19 @@
 </template>
 
 <script>
-import * as user from "@/api/user";
-import { formatDate, convertUserStatus } from "@/utils/utils";
+import * as auction from "@/api/auction";
 
 export default {
-  name: "UserList",
+  name: "AuctionList",
   filters: {
-    statusFilter(status) {
-      const statusMap = {
-        0: "danger",
-        1: "success",
-        "-1": "warning",
+    typeFilter(type) {
+      const typeMap = {
+        1: "Đấu giá công khai",
+        2: "Đấu giá kín",
       };
-
-      return statusMap[status];
+      return typeMap[type];
     },
-    convertStatus: convertUserStatus,
   },
-
   data() {
     return {
       isLoading: true,
@@ -94,11 +107,9 @@ export default {
       },
     };
   },
-
   created() {
     this.fetchData();
   },
-
   methods: {
     handlePageChange(page) {
       this.currentPage = page;
@@ -106,25 +117,27 @@ export default {
     },
     fetchData() {
       this.isLoading = true;
-      user
+      auction
         .getList(this.currentPage, this.pageSize, this.form.keyword)
         .then((response) => {
-          this.list = response.data.users;
-          this.list = this.list.map((e) => {
-            e.created_at = formatDate(e.created_at);
-            return e;
-          });
+          this.list = response.data.auctions.map((e) => e.auction);
           this.total = response.data.total;
           this.isLoading = false;
         })
         .catch((err) => console.log(err));
     },
     handleDetail(idx, row) {
-      this.$router.push(`/users/detail/${row.id}`);
+      this.$router.push(`/auctions/detail/${row.id}`);
     },
-    alert() {
-      alert(1);
+    handleBidList(idx, row) {
+      this.$router.push(`/auctions/bid-list/${row.id}`);
+    },
+    handleRegistrationList(idx, row) {
+      this.$router.push(`/auctions/registration-list/${row.id}`);
     },
   },
 };
 </script>
+
+<style>
+</style>

@@ -8,13 +8,14 @@ export function login(data) {
   })
 }
 
-export function getList(page, size) {
+export function getList(page, size, keyword) {
   return request({
     url: '/cms/list-user',
     method: 'post',
     data: {
       page,
-      size
+      size,
+      keyword,
     }
   })
 }
